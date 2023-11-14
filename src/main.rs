@@ -2,8 +2,8 @@ use axum::{routing::get, Router};
 use cautious_memory::routes::*;
 use dotenv::dotenv;
 use sqlx::postgres::PgPoolOptions;
-use std::net::{Ipv4Addr, SocketAddr};
-use std::{env, net::SocketAddrV4};
+use std::env;
+use std::net::SocketAddr;
 use tower_http::{
     compression::CompressionLayer,
     decompression::DecompressionLayer,
