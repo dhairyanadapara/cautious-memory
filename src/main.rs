@@ -2,8 +2,8 @@ use axum::{routing::get, Router};
 use cautious_memory::routes::*;
 use dotenv::dotenv;
 use sqlx::postgres::PgPoolOptions;
-use std::env;
-use std::net::SocketAddr;
+use std::net::{Ipv4Addr, SocketAddr};
+use std::{env, net::SocketAddrV4};
 use tower_http::{
     compression::CompressionLayer,
     decompression::DecompressionLayer,
@@ -39,7 +39,17 @@ async fn main() {
         .await
         .unwrap();
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
+    // let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
+
+    // let addr: SocketAddr = env::var("SERVER_ADDRESS")
+    //     .to_owned()
+    //     .parse()
+    //     .expect("Unable to parse socket address");
+
+    let addr = env::var("SERVER_ADDRESS")
+        .unwrap()
+        .parse::<SocketAddr>()
+        .unwrap();
 
     let app = Router::new()
         .route("/health_check", get(health_check()))
